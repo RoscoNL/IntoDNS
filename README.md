@@ -1,8 +1,12 @@
 # intodns
 
+[![npm version](https://img.shields.io/npm/v/intodns.svg)](https://www.npmjs.com/package/intodns)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js 18+](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
+
 CLI tool for DNS and email security scanning powered by [IntoDNS.ai](https://intodns.ai).
 
-Checks DNS configuration, DNSSEC, SPF, DKIM, DMARC, IPv6, and more — right from your terminal or CI pipeline.
+Checks DNS configuration, DNSSEC, SPF, DKIM, DMARC, MTA-STS, BIMI, blacklists, and more — right from your terminal or CI pipeline. No signup required.
 
 ## Installation
 
@@ -41,34 +45,6 @@ intodns example.com --category email
 intodns example.com --no-color
 ```
 
-## Baseline Comparison
-
-Track DNS configuration changes over time by saving a baseline and comparing later scans against it.
-
-```bash
-# Save current scan as baseline
-intodns example.com --save-baseline baseline.json
-
-# (Later) Compare against the baseline
-intodns example.com --baseline baseline.json
-```
-
-The comparison report highlights new issues and fixed issues since the baseline was saved.
-
-## Watch Mode
-
-Continuously re-scan a domain to monitor for changes in real time.
-
-```bash
-# Re-scan every 5 minutes (default)
-intodns example.com --watch
-
-# Re-scan every 60 seconds
-intodns example.com --watch 60
-```
-
-Press `Ctrl+C` to stop.
-
 ## Example Output
 
 ```
@@ -91,15 +67,33 @@ Issues (1)
 Full report: https://intodns.ai/scan/example.com
 ```
 
-## Multi-Domain Summary
+## Baseline Comparison
 
+Track DNS configuration changes over time by saving a baseline and comparing later scans.
+
+```bash
+# Save current scan as baseline
+intodns example.com --save-baseline baseline.json
+
+# (Later) Compare against the baseline
+intodns example.com --baseline baseline.json
 ```
-IntoDNS.ai Multi-Domain Summary
-────────────────────────────────────────────────────────────
-  A  site1.com                    ████████████████████░  93/100  1 issue
-  B  site2.com                    ███████████████░░░░░░  75/100  3 issues
-  C  site3.com                    ████████░░░░░░░░░░░░░  40/100  8 issues
+
+The comparison report highlights new issues and resolved issues since the baseline was saved.
+
+## Watch Mode
+
+Continuously re-scan a domain to monitor for changes in real time.
+
+```bash
+# Re-scan every 5 minutes (default)
+intodns example.com --watch
+
+# Re-scan every 60 seconds
+intodns example.com --watch 60
 ```
+
+Press `Ctrl+C` to stop.
 
 ## CI/CD Integration
 
@@ -146,7 +140,7 @@ dns-security:
 | `--json` | Output raw JSON from the API |
 | `--output <file>` | Save results to a JSON file |
 | `--fail-below N` | Exit with code 1 if score is below N (0-100) |
-| `--category <name>` | Show only a specific category (dns, email, dnssec, ipv6, security) |
+| `--category <name>` | Filter to a specific category (dns, email, dnssec) |
 | `--save-baseline <file>` | Save current scan results as a baseline file |
 | `--baseline <file>` | Compare results against a saved baseline |
 | `--watch [seconds]` | Re-scan periodically (default: 300s) |
@@ -159,10 +153,30 @@ dns-security:
 
 - Node.js 18 or higher (uses native `fetch`)
 
+## API
+
+IntoDNS.ai also offers a **free REST API** with no authentication required:
+
+```bash
+# Quick scan via API
+curl "https://intodns.ai/api/scan/quick?domain=example.com"
+
+# Email security check
+curl "https://intodns.ai/api/email/check?domain=example.com"
+
+# DNS lookup
+curl "https://intodns.ai/api/dns/lookup?domain=example.com"
+```
+
+See the full [API documentation](https://intodns.ai/api-docs) for all endpoints.
+
 ## Links
 
-- [IntoDNS.ai](https://intodns.ai) — Full web-based DNS analysis
-- [GitHub](https://github.com/RoscoNL/intodns) — Source code
+- [IntoDNS.ai](https://intodns.ai) — Full web-based DNS & email security scanner
+- [API Documentation](https://intodns.ai/api-docs) — Free REST API reference
+- [Developers](https://intodns.ai/developers) — Integration guides
+- [npm](https://www.npmjs.com/package/intodns) — Package on npm
+- [GitHub](https://github.com/RoscoNL/IntoDNS) — Source code
 - [Cobytes](https://cobytes.com) — Security solutions by Cobytes B.V.
 
 ## License
