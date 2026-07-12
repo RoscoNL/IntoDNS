@@ -170,12 +170,30 @@ curl "https://intodns.ai/api/dns/lookup?domain=example.com"
 
 See the full [API documentation](https://intodns.ai/api-docs) for all endpoints.
 
+## MCP Server (AI assistants)
+
+Prefer to let an AI assistant run the checks? The companion [`intodns-mcp`](https://www.npmjs.com/package/intodns-mcp) package exposes 36 free DNS & email security tools (scan, SPF/DKIM/DMARC/BIMI/DNSSEC/MTA-STS checks, blacklists, citation-grade report snapshots) over the Model Context Protocol — no API key required.
+
+```json
+{
+  "mcpServers": {
+    "intodns": {
+      "command": "npx",
+      "args": ["-y", "intodns-mcp"]
+    }
+  }
+}
+```
+
+Source: [RoscoNL/intodns-mcp-server](https://github.com/RoscoNL/intodns-mcp-server)
+
 ## Links
 
 - [IntoDNS.ai](https://intodns.ai) — Full web-based DNS & email security scanner
 - [API Documentation](https://intodns.ai/api-docs) — Free REST API reference
 - [Developers](https://intodns.ai/developers) — Integration guides
 - [npm](https://www.npmjs.com/package/intodns) — Package on npm
+- [MCP server](https://www.npmjs.com/package/intodns-mcp) — 36 DNS & email security tools for AI assistants
 - [GitHub](https://github.com/RoscoNL/IntoDNS) — Source code
 - [Cobytes](https://cobytes.com) — Security solutions by Cobytes B.V.
 

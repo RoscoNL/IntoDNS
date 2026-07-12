@@ -1,6 +1,6 @@
 {
   "name": "intodns",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "DNS & email security scanner powered by IntoDNS.ai",
   "bin": {
     "intodns": "bin/intodns.js"
@@ -25,10 +25,13 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/RoscoNL/intodns.git"
+    "url": "git+https://github.com/RoscoNL/IntoDNS.git"
   },
   "homepage": "https://intodns.ai",
   "engines": {
     "node": ">=18"
+  },
+  "bugs": {
+    "url": "https://github.com/RoscoNL/IntoDNS/issues"
   }
 }
