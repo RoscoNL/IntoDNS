@@ -1,37 +1,36 @@
 {
   "name": "intodns",
   "version": "2.0.1",
-  "description": "DNS & email security scanner powered by IntoDNS.ai",
+  "description": "CLI tool for DNS and email security scanning powered by IntoDNS.ai",
   "bin": {
     "intodns": "bin/intodns.js"
   },
-  "main": "bin/intodns.js",
-  "scripts": {
-    "test": "node bin/intodns.js --help"
-  },
   "keywords": [
     "dns",
+    "email",
     "security",
-    "dnssec",
     "spf",
     "dkim",
     "dmarc",
-    "email",
-    "scanner",
-    "cli",
-    "cobytes"
+    "dnssec",
+    "scanner"
   ],
-  "author": "Cobytes B.V. <info@cobytes.com>",
+  "author": "Cobytes B.V.",
   "license": "MIT",
+  "homepage": "https://intodns.ai",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/RoscoNL/IntoDNS.git"
   },
-  "homepage": "https://intodns.ai",
-  "engines": {
-    "node": ">=18"
-  },
   "bugs": {
     "url": "https://github.com/RoscoNL/IntoDNS/issues"
-  }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "bin/",
+    "README.md",
+    "LICENSE"
+  ]
 }

@@ -1,0 +1,50 @@
+name: Publish to npm
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to publish (must already exist on main)'
+        required: true
+        type: string
+
+# Publishing uses npm Trusted Publishing (OIDC), not a token. Tokens kept expiring
+# or being revoked under this account, and npm reports a refused token as
+# `E404 PUT https://registry.npmjs.org/<pkg>`, which reads like a missing package
+# rather than an auth failure. npm is also retiring 2FA-bypass tokens: account
+# changes since Aug 2026, direct publishing from Jan 2027. The trusted publisher is
+# configured on npmjs.com under the package's Settings and names this repository,
+# this workflow file and the environment below (none).
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v6.0.2
+        with:
+          ref: ${{ inputs.tag }}
+      - uses: actions/setup-node@v6.4.0
+        with:
+          node-version: '24'
+
+      # bin/intodns.js carries its own VERSION constant, which the manifest cannot
+      # keep in step for it. Its MCP sibling shipped a tarball whose constant said
+      # 1.9.0 while package.json said 1.10.1, and nothing caught it until someone
+      # read the published bundle. Refuse to publish a mismatch.
+      - name: Version, tag and CLI agree
+        run: |
+          manifest=$(node -p "require('./package.json').version")
+          cli=$(node bin/intodns.js --version)
+          tag="${{ inputs.tag }}"
+          echo "manifest=$manifest cli=$cli tag=$tag"
+          [ "$cli" = "$manifest" ] || { echo "bin/intodns.js reports $cli, package.json says $manifest"; exit 1; }
+          [ "$tag" = "v$manifest" ] || { echo "tag $tag does not match version $manifest"; exit 1; }
+
+      - name: CLI runs
+        run: node bin/intodns.js --help >/dev/null
+
+      # Trusted publishing needs npm 11.5.1 or newer to mint the OIDC credential.
+      - run: npm install -g npm@latest
+      - run: npm publish --provenance --access public
