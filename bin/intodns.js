@@ -4,7 +4,7 @@
 
 const API_BASE = 'https://intodns.ai/api/scan/quick';
 const SITE_URL = 'https://intodns.ai';
-const VERSION = '2.0.2';
+const VERSION = '2.0.3';
 
 const fs = require('fs');
 const path = require('path');
